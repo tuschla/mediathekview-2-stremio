@@ -13,8 +13,8 @@ Stremio add-on for the German public-broadcaster Mediatheken (default: ARD, ZDF,
 ## Run
 
 ```sh
-docker build -t mediathek-addon .
-docker run -d -p 127.0.0.1:7000:7000 --read-only --cap-drop=ALL --security-opt=no-new-privileges mediathek-addon
+docker run -d -p 127.0.0.1:7000:7000 --read-only --cap-drop=ALL --security-opt=no-new-privileges \
+  ghcr.io/tuschla/mediathekview-2-stremio
 ```
 
 or `node src/server.ts` (Node.js ≥ 22.18). Manifest: `http://<host>:7000/manifest.json`
