@@ -1,0 +1,19 @@
+{
+  "name": "mediathek-stremio-addon",
+  "version": "0.1.0",
+  "description": "Stremio add-on for ARD, ZDF and ARTE Mediathek content via the MediathekViewWeb API",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "start": "node src/server.ts",
+    "test": "node --test",
+    "check": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.0"
+  }
+}
