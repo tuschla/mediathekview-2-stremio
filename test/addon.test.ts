@@ -76,6 +76,29 @@ test('films linking a live channel are left out, on-demand HLS is kept', async (
   assert.equal((await a.catalog('series', 'orf.series', new URLSearchParams(), BASE)).metas.length, 1);
 });
 
+test('streams list each URL once and are named so that versions can be told apart', async () => {
+  const t = now - DAY;
+  const { addon: a } = addon([
+    {
+      ...film('ZDF', 'Terra X', 'Folge A', t, 'https://cdn.example/a.mp4'),
+      url_video_hd: 'https://cdn.example/a.mp4',
+      url_video_low: 'http://cdn.example/a-low.mp4',
+    },
+    film('ZDF', 'Terra X', 'Folge A (Audiodeskription)', t, 'https://cdn.example/a-ad.m3u8'),
+  ]);
+  const [show] = (await a.catalog('series', 'zdf.series', new URLSearchParams(), BASE)).metas;
+  const { meta } = await a.meta('series', show!.id, BASE);
+  const { streams } = await a.stream(meta.videos![0]!.id);
+  assert.deepEqual(
+    streams.map(({ name, url, behaviorHints }) => [name, url, behaviorHints.notWebReady]),
+    [
+      ['ZDF HD', 'https://cdn.example/a.mp4', false],
+      ['ZDF Low', 'http://cdn.example/a-low.mp4', true],
+      ['ZDF SD · Audiodeskription', 'https://cdn.example/a-ad.m3u8', true],
+    ],
+  );
+});
+
 test('posters of catalog items need no API queries of their own', async () => {
   const films = Array.from({ length: 50 }, (_, i) => film('ARD', `Show ${i}`, `Folge ${i}`, now - i * 3600));
   films.push(film('ARD', 'Filme im Ersten', 'Ein Film', now - DAY));

@@ -7,9 +7,9 @@ API von [MediathekViewWeb](https://mediathekviewweb.de). Funktioniert mit jedem 
 spricht.
 
 - Serien nach Thema gruppiert („Tatort“), ARTE-Serien nach Teilangaben „(n/m)“.
-- Filme aus Film-Themen („Filme im Ersten“, …) und alle übrigen ARTE-Sendungen.
+- Filme aus Themen, die Filmreihen sind („Filme im Ersten“, …), und alle übrigen ARTE-Sendungen.
 - Audiodeskription, Gebärdensprache und Sprachfassungen werden zu zusätzlichen Streams desselben Eintrags.
-- Bilder von der Senderseite; Suche über alle Sender.
+- Bilder von der Senderseite; Suche über alle konfigurierten Sender.
 
 ## Starten
 
@@ -27,7 +27,7 @@ Den Port nicht öffentlich freigeben oder einen Reverse-Proxy mit Rate-Limiting 
 
 | Variable | Standard | Bedeutung |
 |---|---|---|
-| `PORT` / `HOST` | `7000` / `0.0.0.0` | Listen-Adresse |
+| `PORT` / `HOST` | `7000` / `0.0.0.0` | Port und Adresse, auf denen der Server lauscht |
 | `PUBLIC_URL` | `Host` der Anfrage | Basis-URL der Bildlinks; hinter einem Reverse-Proxy setzen |
 | `CHANNELS` | `ARD,ZDF,ARTE.DE` | Sendernamen in MediathekView, z. B. `3Sat`, `BR`, `WDR`, `ZDFinfo` |
 | `MIN_DURATION` | `300` | Filme unter dieser Länge in Sekunden ignorieren |
@@ -39,8 +39,10 @@ Den Port nicht öffentlich freigeben oder einen Reverse-Proxy mit Rate-Limiting 
 
 ## Hinweise
 
-- Folgennummern bleiben stabil, auch wenn Folgen hinzukommen oder wegfallen: die angegebene Nummer (`S18/E07`,
-  ARTE `(3/8)`), sonst Staffel = Sendejahr und Folge = Minute im Jahr. Alle Nummern passen in 32 Bit.
+- Die Nummer einer Folge hängt nur von der Folge selbst ab und bleibt daher stabil, auch wenn andere Folgen
+  hinzukommen oder wegfallen: die angegebene Nummer (`S18/E07`, ARTE `(3/8)`); spätere Teile und doppelt
+  vergebene Nummern wandern in eigene hohe Bereiche; Folgen ohne Nummer erhalten Staffel = Sendejahr und eine
+  aus der Sendeminute abgeleitete Nummer. Alle Nummern passen in 32 Bit.
 - Fällt die API aus, werden bereits geladene Ergebnisse weiter ausgeliefert.
 - Kataloge umfassen nur die neuesten `CATALOG_DEPTH` Filme pro Sender; ältere Sendungen findet die Suche.
 - Nicht unterstützt: Untertitel, ARTE-Reihen ohne Teilangaben (erscheinen als Filme), vergangene Live-Events,

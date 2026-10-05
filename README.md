@@ -8,7 +8,7 @@ Stremio add-on for the German public-broadcaster Mediatheken (default: ARD, ZDF,
 - Series grouped by topic ("Tatort"); ARTE series by "(n/m)" part markers.
 - Movies from movie-collection topics ("Filme im Ersten", …) and all other ARTE programmes.
 - Audiodeskription, Gebärdensprache and language versions become extra streams of one item.
-- Artwork from the broadcaster page; search across all channels.
+- Artwork from the broadcaster page; search across the configured channels.
 
 ## Run
 
@@ -38,8 +38,9 @@ or put a rate-limiting reverse proxy in front.
 
 ## Notes
 
-- Episode numbers stay stable as episodes come and go: the stated number (`S18/E07`, ARTE `(3/8)`) if any,
-  else season = broadcast year and episode = minute of the year. All numbers fit in 32 bits.
+- Each episode's number depends only on that episode, so it stays put as others come and go: the stated number
+  (`S18/E07`, ARTE `(3/8)`); later parts and numbers stated twice move to separate high ranges; unnumbered
+  episodes get season = broadcast year and a number derived from the broadcast minute. All fit in 32 bits.
 - When the API fails, previously loaded results keep being served.
 - Catalogs only cover the newest `CATALOG_DEPTH` films per channel; older shows are found through search.
 - Not supported: subtitles, ARTE collections without part markers (listed as movies), past live events whose

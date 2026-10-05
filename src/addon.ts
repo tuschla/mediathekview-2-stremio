@@ -65,6 +65,7 @@ const SEARCH_SIZE = 300;
 const MAX_SEARCH_TERM_LENGTH = 100;
 const FAILURE_TTL_MS = 30_000;
 const IMAGE_TTL_MS = 24 * 60 * 60_000;
+const IMAGE_FAILURE_TTL_MS = 60_000;
 /**
  * Films of past live events that link a live stream, which plays whatever is on now. On-demand HLS has
  * none of these markers.
@@ -154,7 +155,7 @@ export class Addon {
   readonly #searches: TtlCache<Collection>;
   readonly #shows: TtlCache<Show | undefined>;
   readonly #movies: TtlCache<Movie[]>;
-  readonly #images = new TtlCache<string | undefined>({ ttlMs: IMAGE_TTL_MS, failureTtlMs: 60_000, isTransient, maxEntries: 20_000 });
+  readonly #images = new TtlCache<string | undefined>({ ttlMs: IMAGE_TTL_MS, failureTtlMs: IMAGE_FAILURE_TTL_MS, isTransient, maxEntries: 20_000 });
 
   constructor(cfg: Config, mvw: MvwClient) {
     this.#cfg = cfg;
