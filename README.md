@@ -19,6 +19,9 @@ docker run -d -p 127.0.0.1:7000:7000 --read-only --cap-drop=ALL --security-opt=n
 
 or `node src/server.ts` (Node.js ≥ 22.18). Manifest: `http://<host>:7000/manifest.json`
 
+On TrueNAS SCALE, install **Mediathek** from the community apps; the manifest is then at
+`http://<truenas-host>:30521/manifest.json`.
+
 There is no authentication or rate limiting, and uncached requests query MediathekViewWeb. Keep the port private
 or put a rate-limiting reverse proxy in front.
 
